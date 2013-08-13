@@ -1,0 +1,21 @@
+<?php
+use Opf\Registry\Registry;
+?>
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <title>Login</title>
+   </head>
+   <body>
+      <h1>Status</h1>
+      <fieldset><legend>Session</legend><?php var_dump(Registry::getInstance()->getSession()); ?></fieldset>
+      <p>Logged in: <?php
+         if(Registry::getInstance()->getSession()->getParameter('auth::signin') == true) {
+            echo $_SESSION['username'].'<a href="/?auth::logout">logout</a>';
+         } else {
+            echo 'not sign in';
+         } ?></p>
+
+   </body>
+</html>

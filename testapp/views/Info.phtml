@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <title>Info</title>
+   </head>
+   <body>
+      <h1>Überschrift</h1>
+
+      <?php
+
+      ob_start () ;
+      phpinfo () ;
+      $pinfo = ob_get_contents () ;
+      ob_end_clean () ;
+
+      echo ( str_replace ( "module_Zend Optimizer", "module_Zend_Optimizer", preg_replace ( '%^.*<body>(.*)</body>.*$%ms', '$1', $pinfo ) ) )
+
+      ?>
+
+   </body>
+</html>

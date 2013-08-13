@@ -1,0 +1,15 @@
+{
+    "name": "ofeige/testapp",
+    "description": "A simple application for testing OPF",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Oliver Feige",
+            "email": "ofeige@gmx.de"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "ofeige/opf": "dev-master"
+    }
+}
