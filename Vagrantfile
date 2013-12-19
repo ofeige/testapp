@@ -17,7 +17,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.synced_folder ".", "/var/www", :owner => "www-data", :group => "www-data"
 
   config.vm.provision :chef_solo do |chef|
-    chef.cookbooks_path = ["vendor/chef/cookbooks/"]
+    chef.cookbooks_path = ["chef/cookbooks/"]
     chef.add_recipe("lamp")
     chef.json = {
       "mysql"=>{
