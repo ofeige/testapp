@@ -19,7 +19,7 @@ class Secure extends CommandAbstract
 
    public function info()
    {
-      $view = new View('info');
+      $view = new View('secure');
       $view->render($this->request, $this->response);
    }
 }

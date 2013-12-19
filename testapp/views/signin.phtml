@@ -52,7 +52,7 @@ use Opf\Registry\Registry;
 
       <p>Logged in: <?php
          if(Registry::getInstance()->getSession()->getParameter('auth::signin') == true) {
-            echo $_SESSION['username'].'<a href="/?auth::logout">logout</a>';
+            echo Registry::getInstance()->getSession()->getParameter('auth::name').' (<a href="/?auth::logout">logout</a>)';
          } else {
             echo 'not sign in';
          } ?></p>
