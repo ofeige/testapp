@@ -12,7 +12,7 @@ class Home extends CommandAbstract
 
    public function main()
    {
-      $view = new View('status');
+      $view = new View('home');
       $view->render($this->request, $this->response);
    }
 
@@ -25,7 +25,7 @@ class Home extends CommandAbstract
    public function signin()
    {
       $view = new View('signin');
-      $view->assign('action', '/?app=secure');
+      $view->assign('action', '/?app=home&cmd=signin');
       $view->render($this->request, $this->response);
    }
 }

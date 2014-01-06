@@ -34,8 +34,8 @@ use Opf\Registry\Registry;
       <div class="navbar-collapse collapse">
          <?php if(Registry::getInstance()->getSession()->getParameter('auth::signin') == true) { ?>
             <ul class="nav navbar-nav">
-               <li><a href="/?app=secure&cmd=main">Home</a></li>
-               <li class="active"><a href="/?app=secure&cmd=info">PHP Info</a></li>
+               <li class="active"><a href="/?app=secure&cmd=main">Home</a></li>
+               <li><a href="/?app=secure&cmd=info">PHP Info</a></li>
             </ul>
             <a href="/?auth::logout" class="btn btn-default navbar-btn navbar-right">Sign out <?php echo Registry::getInstance()->getSession()->getParameter('auth::name') ?></a>
          <?php } else { ?>
@@ -57,17 +57,54 @@ use Opf\Registry\Registry;
       </div><!--/.navbar-collapse -->
    </div>
 </div>
-<div class="container">
-      <?php
-
-      ob_start () ;
-      phpinfo () ;
-      $pinfo = ob_get_contents () ;
-      ob_end_clean () ;
-
-      echo ( str_replace ( "module_Zend Optimizer", "module_Zend_Optimizer", preg_replace ( '%^.*<body>(.*)</body>.*$%ms', '$1', $pinfo ) ) )
-
-      ?>
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+   <div class="container">
+      <h1>Hello, world!</h1>
+      <p>This is a small demo to introduce you in OPF. With this demo application you have a fully working expample with following features:</p>
+      <ul>
+         <li>bootstraping your application</li>
+         <li>working login system</li>
+         <li>plugins</li>
+         <li>templating</li>
+         <li>controller</li>
+      </ul>
+      <p><a class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>
+   </div>
 </div>
-   </body>
+
+<div class="container">
+   <!-- Example row of columns -->
+   <div class="row">
+      <div class="col-md-4">
+         <h2>Getting started</h2>
+         <p>A short overview about OPF, how to download and use it, basic configuration</p>
+         <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+      </div>
+
+      <div class="col-md-4">
+         <h2>Bootstrapping your Application</h2>
+         <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+         <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+      </div>
+
+   </div>
+   <hr/>
+   <footer>
+      <p>&copy; Oliver Feige 2014</p>
+   </footer>
+
+   <p class="bs-docs-debug">Logged in: <?php
+      if(Registry::getInstance()->getSession()->getParameter('auth::signin') == true) {
+         echo Registry::getInstance()->getSession()->getParameter('auth::name').' (<a href="/?auth::logout">logout</a>)';
+      } else {
+         echo 'not sign in';
+      } ?>
+      <br/><?php var_dump(Registry::getInstance()->getSession()); ?>
+   </p>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins)
+<script src="https://code.jquery.com/jquery.js"></script> -->
+</body>
 </html>

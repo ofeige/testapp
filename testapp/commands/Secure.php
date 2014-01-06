@@ -13,13 +13,13 @@ class Secure extends CommandAbstract
 
    public function main()
    {
-      $view = new View('status');
+      $view = new View('home');
       $view->render($this->request, $this->response);
    }
 
    public function info()
    {
-      $view = new View('secure');
+      $view = new View('info');
       $view->render($this->request, $this->response);
    }
 }
