@@ -3,7 +3,6 @@
 namespace Opf\Mvc;
 
 use Opf\Registry\Registry;
-use Opf\Template\View;
 use Opf\Template\ViewTwig;
 
 class Home extends CommandAbstract
@@ -19,7 +18,10 @@ class Home extends CommandAbstract
 
     public function info()
     {
-        $view = new View('info');
+        $view = new ViewTwig('info');
+        $view->assign('session', Registry::getInstance()->getSession());
+
+        $view->assign('iniget', ini_get_all());
         $view->render($this->request, $this->response);
     }
 }
