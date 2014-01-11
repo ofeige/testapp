@@ -27,7 +27,7 @@ $driver = new \Opf\Auth\Driver\PhpArray(array(
 
 //$auth = new \Opf\Auth\Auth($driver, ,$session);
 
-$login = new \Opf\Template\View('signin');
+$login = new \Opf\Template\ViewTwig('signin');
 $auth = new \Opf\Auth\AuthEventHandler($driver, $session, $request, $response, $login);
 
 \Opf\Event\Dispatcher::getInstance()->addHandler('CommandConstructor', $auth);

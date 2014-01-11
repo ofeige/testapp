@@ -1,0 +1,26 @@
+{% import "macros.twig" as impmac %}
+
+{% extends "layout.twig" %}
+
+{% block content %}
+    <div class="container">
+        <h1>Configure Options</h1>
+        <table class="table table-striped table-hover table-bordered">
+        <thead><tr><th>#
+            </th><th>global_value</th><th>local_value</th><th>access</th></tr></thead>
+        {% for topics, values in iniget %}
+            <tr>
+                <td>{{ topics }}</td>
+                <td>{% if values.global_value|length > 50 %}
+                        {{ impmac.tooltip(values.global_value|slice(0,50), values.global_value) }}
+
+                    {% else %}
+                        {{ values.global_value }}
+                    {% endif %}</td>
+                <td>{{ values.local_values }}</td>
+                <td>{{ values.access }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+{% endblock %}

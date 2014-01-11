@@ -2,9 +2,9 @@
 
 namespace Opf\Mvc;
 
-use Opf\Http\RequestInterface;
-use Opf\Http\ResponseInterface;
+use Opf\Registry\Registry;
 use Opf\Template\View;
+use Opf\Template\ViewTwig;
 
 class Secure extends CommandAbstract
 {
@@ -13,13 +13,17 @@ class Secure extends CommandAbstract
 
    public function main()
    {
-      $view = new View('home');
-      $view->render($this->request, $this->response);
+       $view = new ViewTwig('home');
+       $view->assign('session', Registry::getInstance()->getSession());
+       $view->render($this->request, $this->response);
    }
 
    public function info()
    {
-      $view = new View('info');
+      $view = new ViewTwig('info');
+       $view->assign('session', Registry::getInstance()->getSession());
+
+       $view->assign('iniget', ini_get_all());
       $view->render($this->request, $this->response);
    }
 }

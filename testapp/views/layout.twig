@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Welcome Page</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="/js/jquery-2.0.3.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+
+        <link rel="stylesheet" href="/css/opf.css"/>
+    </head>
+    <body>
+        {% include 'navigation.twig' %}
+
+        {% block content %}{% endblock %}
+
+        <div class="container">
+            <hr/>
+            <footer>
+                <p>&copy; Oliver Feige 2014</p>
+            </footer>
+
+            <p class="bs-docs-debug">Logged in:
+            {% if attribute(session, 'auth::signin') == true %}
+                {{ attribute(session, 'auth::name') }} <a href="/?auth::logout">logout</a>
+            {% else %}
+                not sign in
+            {% endif %}
+                <br/><br/>
+                {{ dump(session) }}
+            </p>
+        </div>
+    </body>
+</html>

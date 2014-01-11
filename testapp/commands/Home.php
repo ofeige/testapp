@@ -2,31 +2,24 @@
 
 namespace Opf\Mvc;
 
-use Opf\Http\RequestInterface;
-use Opf\Http\ResponseInterface;
+use Opf\Registry\Registry;
 use Opf\Template\View;
 use Opf\Template\ViewTwig;
 
 class Home extends CommandAbstract
 {
-   public $isProtected = false;
+    public $isProtected = false;
 
-   public function main()
-   {
-      $view = new View('home');
-      $view->render($this->request, $this->response);
-   }
+    public function main()
+    {
+        $view = new ViewTwig('home');
+        $view->assign('session', Registry::getInstance()->getSession());
+        $view->render($this->request, $this->response);
+    }
 
-   public function info()
-   {
-      $view = new View('info');
-      $view->render($this->request, $this->response);
-   }
-
-   public function signin()
-   {
-      $view = new View('signin');
-      $view->assign('action', '/?app=home&cmd=signin');
-      $view->render($this->request, $this->response);
-   }
+    public function info()
+    {
+        $view = new View('info');
+        $view->render($this->request, $this->response);
+    }
 }
