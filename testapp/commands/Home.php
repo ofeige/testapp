@@ -5,6 +5,7 @@ namespace Opf\Mvc;
 use Opf\Http\RequestInterface;
 use Opf\Http\ResponseInterface;
 use Opf\Template\View;
+use Opf\Template\ViewTwig;
 
 class Home extends CommandAbstract
 {
