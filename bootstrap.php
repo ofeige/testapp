@@ -1,5 +1,7 @@
 <?php
 
+$OPF_START = microtime(true);
+
 require ('vendor/autoload.php');
 
 use Opf\Registry\Registry;
@@ -34,3 +36,5 @@ $auth = new \Opf\Auth\AuthEventHandler($driver, $session, $request, $response, $
 $resolver = new CommandResolver(OPF_APPLICATION_PATH, 'Home');
 $controller = new Controller($resolver);
 $controller->handleRequest($request, $response);
+
+printf("\n<!-- page generation time: %s -->", (microtime(true) - $OPF_START));
