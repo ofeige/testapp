@@ -2,6 +2,7 @@
 
 namespace Opf\Mvc;
 
+use Opf\Auth\AuthEventHandler;
 use Opf\Registry\Registry;
 use Opf\Template\ViewTwig;
 
@@ -13,6 +14,8 @@ class Home extends CommandAbstract
     {
         $view = new ViewTwig('home');
         $view->assign('session', Registry::getInstance()->getSession());
+        $view->assign('authUsername', AuthEventHandler::authName);
+        $view->assign('authPassword', AuthEventHandler::authPassword);
         $view->render($this->request, $this->response);
     }
 
