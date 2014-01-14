@@ -15,6 +15,10 @@ cd testapp
 git submodule init
 git submodule update</code></pre>
 
+at next you have to install composer (http://getcomposer.org/download/) and update all of the dependency from testapp. This will download opf and Twig. 
+<pre><code>curl -sS https://getcomposer.org/installer | php
+php composer.phar update</code></pre>
+
 then you can build the virtual machine with 
 <pre><code>vagrant up</code></pre>
 
