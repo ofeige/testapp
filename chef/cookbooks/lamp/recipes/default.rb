@@ -1,8 +1,11 @@
 include_recipe "apt"
+<<<<<<< HEAD
 include_recipe "chef-dotdeb::php54"
 
 #include_recipe "build-essential"
 include_recipe "mysql"
+=======
+>>>>>>> 05fd526521248d3cbc78cf86c3f48a17888bec69
 include_recipe "mysql::server"
 
 include_recipe "apache2::mod_php5"
