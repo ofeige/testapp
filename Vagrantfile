@@ -8,9 +8,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--memory", "512"]
   end
 
-
   config.vm.box = "precise32"
-  config.vm.box_url = "http://files.vagrantup.com/precise32.box"
   config.vm.network :forwarded_port, guest: 80, host: 8081
   config.vm.network :forwarded_port, guest: 3306, host: 3306
 
@@ -20,11 +18,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.cookbooks_path = ["chef/cookbooks/"]
     chef.add_recipe("lamp")
     chef.json = {
-      "mysql"=>{
-        "server_root_password" => "",
-        "server_repl_password" => "",
-        "server_debian_password" => ""
-      }
+        "apt" => {
+            "periodic_update_min_delay" => 1
+        },
+        "mysql" => {
+            "server_root_password" => "",
+            "server_repl_password" => "",
+            "server_debian_password" => ""
+        }
     }
   end
 end

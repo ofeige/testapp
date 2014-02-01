@@ -1,11 +1,17 @@
 include_recipe "apt"
-include_recipe "build-essential"
+include_recipe "chef-dotdeb::php54"
+
+#include_recipe "build-essential"
+include_recipe "mysql"
 include_recipe "mysql::server"
-include_recipe "database::mysql"
+
 include_recipe "apache2::mod_php5"
 include_recipe "apache2::mod_rewrite"
 include_recipe "apache2::mod_deflate"
 include_recipe "apache2::mod_headers"
+
+include_recipe "database::mysql"
+
 
 mysql_database 'myapp' do
   connection(
