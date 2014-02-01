@@ -8,6 +8,7 @@ use Opf\Form\Elements\Input;
 use Opf\Form\Elements\Password;
 use Opf\Form\Form;
 use Opf\Form\Rules\Min;
+use Opf\Form\Rules\TwoFieldsEqual;
 use Opf\Registry\Registry;
 use Opf\Template\ViewTwig;
 
@@ -33,7 +34,7 @@ class Home extends CommandAbstract
         $input->setRequired('Benutzername nicht vorhanden');
 
         $password1 = new Password('password1', 'Passwort', 'Passwort hier eingeben');
-        $password1->setRequired('Passwort nicht vorhanden')->addRule(new Min('Passwort ist zu kurz', 5));
+        $password1->setRequired('Passwort nicht vorhanden')->addRule(new Min('Passwort ist zu kurz', 5))->addRule(new TwoFieldsEqual('Passwörter stimmen nicht überein', 'password2'));
 
         $password2 = new Password('password2', 'Passwort Wiederholung', 'Passwort hier eingeben');
         $password2->setRequired('Passwort nicht vorhanden');
