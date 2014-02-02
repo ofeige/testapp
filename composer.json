@@ -11,6 +11,7 @@
     "require": {
         "php": ">=5.3.3",
         "ofeige/opf": "dev-master",
-        "twig/twig": "1.6.5"
+        "twig/twig": "1.6.5",
+        "j4mie/paris": "v1.4.2"
     }
 }
