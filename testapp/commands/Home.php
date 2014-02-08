@@ -49,6 +49,13 @@ class Home extends CommandAbstract
         if($form->isValid($this->request)) {
             /** put code for saving data here */
             $html = '<p>save data</p>';
+
+            $data = $form->getData();
+
+            $user = \Model::factory('User')->create();
+            $user->email = $data['user'];
+            $user->password = password_hash($data['password1'], PASSWORD_DEFAULT);
+            $user->save();
         }
         else {
             $html = (string) $form;

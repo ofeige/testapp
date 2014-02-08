@@ -2,7 +2,8 @@
 
 $OPF_START = microtime(true);
 
-require ('vendor/autoload.php');
+$loader = require ('vendor/autoload.php');
+$loader->add('', __DIR__.'/testapp/models');
 
 use Opf\Registry\Registry;
 use Opf\Mvc\CommandResolver;
@@ -14,6 +15,10 @@ use Opf\Session\Php;
 define('OPF_APPLICATION_PATH', __DIR__.'/testapp');
 chdir(OPF_APPLICATION_PATH);
 
+ORM::configure('mysql:host=localhost;dbname=myapp');
+ORM::configure('username', 'root');
+ORM::configure('password', '');
+
 $request = new Request();
 $response = new Response();
 $session = new Php();
@@ -24,6 +29,8 @@ $driver = new \Opf\Auth\Driver\PhpArray(array(
    'ofeige' => 'test',
    'test'   => 'test'
 ));
+
+$driver = new \Opf\Auth\Driver\Mysql('User');
 
 //$auth = new \Opf\Auth\Auth($driver, ,$session);
 
