@@ -7,6 +7,7 @@ use Opf\Form\Elements\Button;
 use Opf\Form\Elements\Input;
 use Opf\Form\Elements\Password;
 use Opf\Form\Form;
+use Opf\Form\Rules\EmailNotExists;
 use Opf\Form\Rules\Min;
 use Opf\Form\Rules\TwoFieldsEqual;
 use Opf\Registry\Registry;
@@ -31,10 +32,13 @@ class Home extends CommandAbstract
         $form = new Form();
 
         $input = new Input('user', 'Benutzer', 'Benutzername hier eingeben');
-        $input->setRequired('Benutzername nicht vorhanden');
+        $input->setRequired('Benutzername nicht vorhanden')
+           ->addRule(new EmailNotExists('EMail Adresse existiert schon', 'User', 'email'));
 
         $password1 = new Password('password1', 'Passwort', 'Passwort hier eingeben');
-        $password1->setRequired('Passwort nicht vorhanden')->addRule(new Min('Passwort ist zu kurz', 5))->addRule(new TwoFieldsEqual('Passwörter stimmen nicht überein', 'password2'));
+        $password1->setRequired('Passwort nicht vorhanden')
+           ->addRule(new Min('Passwort ist zu kurz', 5))
+           ->addRule(new TwoFieldsEqual('Passwörter stimmen nicht überein', 'password2'));
 
         $password2 = new Password('password2', 'Passwort Wiederholung', 'Passwort hier eingeben');
         $password2->setRequired('Passwort nicht vorhanden');
@@ -46,22 +50,17 @@ class Home extends CommandAbstract
         $form->addElement($password2);
         $form->addElement($button);
 
-        if($form->isValid($this->request)) {
-            /** put code for saving data here */
-            $html = '<p>save data</p>';
-
+        $html = false;
+        if ($form->isValid($this->request)) {
             $data = $form->getData();
 
             $user = \Model::factory('User')->create();
             $user->email = $data['user'];
             $user->password = password_hash($data['password1'], PASSWORD_DEFAULT);
             $user->save();
+        } else {
+            $html = (string)$form;
         }
-        else {
-            $html = (string) $form;
-        }
-
-
 
 
         $view = new ViewTwig('signup');
