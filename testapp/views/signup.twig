@@ -4,6 +4,9 @@
 
     <div class="container">
         <h1>Sign up</h1>
+        {% if form == false %}
+        <p>You have successfully registered to the system. <a href="/?app=secure&cmd=main">Please sign in now here</a></p>
+        {% endif %}
         {{ form|raw }}
     </div>
 
