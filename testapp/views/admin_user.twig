@@ -1,0 +1,25 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <div class="container">
+        <h1>Configure Options</h1>
+        <table class="table table-striped table-hover table-bordered">
+            <thead><tr>
+                <th>#</th>
+                <th>E-Mail</th>
+                <th>DOI passed</th>
+                <th>Is deleted</th>
+            </tr></thead>
+
+            {% for counter, value in user %}
+            <tr>
+                <td>{{ value.id }}</td>
+                <td>{{ value.email }}</td>
+                <td>{{ value.is_doi }}</td>
+                <td>{{ value.is_deleted }}</td>
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+{% endblock %}
