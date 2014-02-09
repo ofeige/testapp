@@ -12,8 +12,9 @@
         <div class="navbar-collapse collapse">
             {% if attribute(session, 'auth::signin') == true %}
             <ul class="nav navbar-nav">
-                <li{{ cmd == 'main' ? ' class="active"' : ''}}><a href="/?app=secure&cmd=main">Home</a></li>
-                <li{{ cmd == 'info' ? ' class="active"' : ''}}><a href="/?app=secure&cmd=info">PHP Info</a></li>
+                <li{{ cmd == 'main' ?  ' class="active"' : ''}}><a href="/?app=secure&cmd=main">Home</a></li>
+                <li{{ cmd == 'info' ?  ' class="active"' : ''}}><a href="/?app=secure&cmd=info">PHP Info</a></li>
+                <li{{ cmd == 'admin' ? ' class="active"' : ''}}><a href="/?app=secure&cmd=admin">Adminsitration</a></li>
             </ul>
             <a href="/?auth::logout" class="btn btn-default navbar-btn navbar-right">Sign out {{ session['auth::name'] }}</a>
             {% else %}

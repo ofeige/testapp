@@ -25,4 +25,15 @@ class Secure extends CommandAbstract
         $view->assign('iniget', ini_get_all());
         $view->render($this->request, $this->response);
     }
+
+    public function admin()
+    {
+        $user = \Model::factory('User')->find_array();
+
+        $view = new ViewTwig('admin_user');
+        $view->assign('session', Registry::getInstance()->getSession());
+
+        $view->assign('user', $user);
+        $view->render($this->request, $this->response);
+    }
 }
