@@ -7,8 +7,7 @@ use Opf\Template\ViewTwig;
 
 class Secure extends CommandAbstract
 {
-    public $isProtected = true;
-    protected $secureRole = array('user', 'admin');
+    protected $aclGroup = array();
 
     public function main()
     {

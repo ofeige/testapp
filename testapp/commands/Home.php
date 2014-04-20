@@ -16,8 +16,6 @@ use Opf\Template\ViewTwig;
 
 class Home extends CommandAbstract
 {
-    public $isProtected = false;
-
     public function main()
     {
         $view = new ViewTwig('home');
