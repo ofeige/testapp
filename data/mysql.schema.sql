@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `id`         INT(11)      NOT NULL AUTO_INCREMENT,
   `email`      VARCHAR(255) NULL DEFAULT NULL,
   `password`   VARCHAR(255) NULL DEFAULT NULL,
-  `is_doi`     TINYINT(1)   NOT NULL DEFAULT 0
+  `is_doi`     TINYINT(1)   NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`))
   ENGINE = InnoDB;
 
@@ -61,8 +61,8 @@ SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 
-INSERT INTO `user` (`id`, `email`, `password`, `is_doi`, `is_deleted`)
-VALUES (1, 'admin', '$2y$10$o0tnUkZQQmB4wvvyJRQiHedb7wE3JL1qLb0Xr9Xb4MKNRWwI0ApXK', 0, 0);
+INSERT INTO `user` (`id`, `email`, `password`, `is_doi`)
+VALUES (1, 'admin', '$2y$10$nwV8BO7xwYOJs172uY3AvOsW7AOOiNUOaSef.fDeHNVkNhyVukCda', 0);
 
 INSERT INTO `role` (`id`, `name`) VALUES (1, 'admin');
 

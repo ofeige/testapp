@@ -3,12 +3,14 @@
 {% block content %}
     <div class="container">
         <h1>Configure Options</h1>
-        <table class="table table-striped table-hover table-bordered">
+        <table class="table table-striped table-hover">
             <thead><tr>
                 <th>#</th>
                 <th>E-Mail</th>
                 <th>DOI passed</th>
                 <th>Is deleted</th>
+                <th>Role</th>
+                <th></th>
             </tr></thead>
 
             {% for counter, value in user %}
@@ -17,6 +19,9 @@
                 <td>{{ value.email }}</td>
                 <td>{{ value.is_doi }}</td>
                 <td>{{ value.is_deleted }}</td>
+                <td>{{ value.role }}</td>
+                <td style="text-align: right"><a href="/?app=admin&cmd=toggleAdmin&id={{ value.id }}" class="btn btn-default"><span
+                                class="glyphicon glyphicon-plus"></span> toggle Admin</a></td>
             </tr>
             {% endfor %}
 

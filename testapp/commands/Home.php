@@ -13,7 +13,6 @@ use Opf\Form\Rules\TwoFieldsEqual;
 use Opf\Registry\Registry;
 use Opf\Template\ViewTwig;
 
-
 class Home extends CommandAbstract
 {
     public function main()
@@ -31,12 +30,12 @@ class Home extends CommandAbstract
 
         $input = new Input('user', 'Benutzer', 'Benutzername hier eingeben');
         $input->setRequired('Benutzername nicht vorhanden')
-           ->addRule(new EmailNotExists('EMail Adresse existiert schon', 'User', 'email'));
+              ->addRule(new EmailNotExists('EMail Adresse existiert schon', 'User', 'email'));
 
         $password1 = new Password('password1', 'Passwort', 'Passwort hier eingeben');
         $password1->setRequired('Passwort nicht vorhanden')
-           ->addRule(new Min('Passwort ist zu kurz', 5))
-           ->addRule(new TwoFieldsEqual('Passwörter stimmen nicht überein', 'password2'));
+                  ->addRule(new Min('Passwort ist zu kurz', 5))
+                  ->addRule(new TwoFieldsEqual('Passwörter stimmen nicht überein', 'password2'));
 
         $password2 = new Password('password2', 'Passwort Wiederholung', 'Passwort hier eingeben');
         $password2->setRequired('Passwort nicht vorhanden');
@@ -52,8 +51,8 @@ class Home extends CommandAbstract
         if ($form->isValid($this->request)) {
             $data = $form->getData();
 
-            $user = \Model::factory('User')->create();
-            $user->email = $data['user'];
+            $user           = \Model::factory('User')->create();
+            $user->email    = $data['user'];
             $user->password = password_hash($data['password1'], PASSWORD_DEFAULT);
             $user->save();
         } else {
@@ -68,4 +67,5 @@ class Home extends CommandAbstract
         $view->assign('authPassword', AuthEventHandler::authPassword);
         $view->render($this->request, $this->response);
     }
+
 }

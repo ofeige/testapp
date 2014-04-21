@@ -16,6 +16,8 @@ use Opf\Session\Php;
 define('OPF_APPLICATION_PATH', __DIR__.'/testapp');
 chdir(OPF_APPLICATION_PATH);
 
+date_default_timezone_set('Europe/Berlin');
+
 ORM::configure('mysql:host=localhost;dbname=myapp');
 ORM::configure('username', 'root');
 ORM::configure('password', '');

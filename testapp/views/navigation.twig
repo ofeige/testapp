@@ -7,33 +7,41 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/?app=home&cmd=main">OPF TestApp</a>
+            <a class="navbar-brand" href="/?app=home&cmd=main">RSS Proxy</a>
         </div>
         <div class="navbar-collapse collapse">
             {% if attribute(session, 'auth::signin') == true %}
-            <ul class="nav navbar-nav">
-                <li{{ cmd == 'main' ?  ' class="active"' : ''}}><a href="/?app=secure&cmd=main">Home</a></li>
-                <li{{ cmd == 'info' ?  ' class="active"' : ''}}><a href="/?app=secure&cmd=info">PHP Info</a></li>
-                <li{{ cmd == 'admin' ? ' class="active"' : ''}}><a href="/?app=secure&cmd=admin">Adminsitration</a></li>
-            </ul>
-            <a href="/?auth::logout" class="btn btn-default navbar-btn navbar-right">Sign out {{ session['auth::name'] }}</a>
+                <ul class="nav navbar-nav">
+                    <li{{ app == 'secure' and cmd == 'main' ?  ' class="active"' : '' }}><a
+                                href="/?app=secure&cmd=main">Home</a></li>
+                    {% if 'admin' in session['auth::roles'] %}
+                        <li{{ app == 'admin' and cmd == 'info' ?  ' class="active"' : '' }}><a
+                                    href="/?app=admin&cmd=info">PHP Info</a></li>
+                        <li{{ app == 'admin' and cmd == 'main' ? ' class="active"' : '' }}><a
+                                    href="/?app=admin&cmd=main">Administration</a></li>
+                    {% endif %}
+                </ul>
+                <a href="/?auth::logout" class="btn btn-default navbar-btn navbar-right">Sign
+                    out {{ session[constant('\\Opf\\Auth\\AuthEventHandler::authName')] }}</a>
             {% else %}
-            <ul class="nav navbar-nav">
-                <li{{ cmd == 'main' ? ' class="active"' : ''}}><a href="/?app=home&cmd=main">Home</a></li>
-                <li{{ cmd == 'signup' ? ' class="active"' : ''}}><a href="/?app=home&cmd=signup">Sign Up</a></li>
-            </ul>
-            {% if showLoginForm != true %}
-            <form class="navbar-form navbar-right" role="form" action="/?app=secure&cmd=main" method="post">
-                <div class="form-group">
-                    <input type="text" placeholder="Email" class="form-control" name="{{ authUsername }}">
-                </div>
-                <div class="form-group">
-                    <input type="password" placeholder="Password" class="form-control" name="{{ authPassword }}">
-                </div>
-                <button type="submit" class="btn btn-success">Sign in</button>
-            </form>
+                <ul class="nav navbar-nav">
+                    <li{{ cmd == 'main' ? ' class="active"' : '' }}><a href="/?app=home&cmd=main">Home</a></li>
+                    <li{{ cmd == 'signup' ? ' class="active"' : '' }}><a href="/?app=home&cmd=signup">Sign Up</a></li>
+                </ul>
+                {% if showLoginForm != true %}
+                    <form class="navbar-form navbar-right" role="form" action="/?app=secure&cmd=main" method="post">
+                        <div class="form-group">
+                            <input type="text" placeholder="Email" class="form-control" name="{{ authUsername }}">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" placeholder="Password" class="form-control"
+                                   name="{{ authPassword }}">
+                        </div>
+                        <button type="submit" class="btn btn-success">Sign in</button>
+                    </form>
+                {% endif %}
             {% endif %}
-            {% endif %}
-        </div><!--/.navbar-collapse -->
+        </div>
+        <!--/.navbar-collapse -->
     </div>
 </div>
