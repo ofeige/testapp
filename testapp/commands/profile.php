@@ -3,6 +3,9 @@
 namespace Opf\Mvc;
 
 use Opf\Auth\AuthEventHandler;
+use Opf\Form\Elements\FileUpload;
+use Opf\Form\Rules\FileUploadSize;
+use Opf\Form\Rules\FileUploadType;
 use Opf\Registry\Registry;
 use Opf\Template\ViewTwig;
 use Opf\Form\Elements\Button;
@@ -34,16 +37,25 @@ class Profile extends CommandAbstract
              ->addRule(new TwoFieldsEqual('Passwörter stimmen nicht überein', 'password2'));
         $form->addElement(new Password('password2', 'Passwort Wiederholung', 'Passwort hier eingeben'))
              ->setRequired('Passwort nicht vorhanden');
+        $form->addElement(new FileUpload('Foto', 'foto', 200000))
+             ->addRule(new FileUploadSize('Datei ist zu gross, max 200 KB', 200000))
+             ->addRule(new FileUploadType('Bitte nur JPG, PNG und GIF benutzen'));
         $form->addElement(new Button('Sign Up'));
         $form->setInitValues($this->request, $user->as_array());
 
         $html = false;
+        $msg  = '';
         if ($form->isValid($this->request) == true) {
             $data = $form->getData();
 
             $user->email    = $data['email'];
             $user->password = password_hash($data['password1'], PASSWORD_DEFAULT);
             $user->save();
+
+            $pictures = \Pictures::create();
+            $pictures->data = file_get_contents($data['foto']['tmp_name']);
+            $pictures->user_id = $user->id;
+            $pictures->save();
 
             $msg = 'Saved data successfully!';
         }

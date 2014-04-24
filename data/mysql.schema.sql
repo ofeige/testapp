@@ -18,6 +18,24 @@ CREATE UNIQUE INDEX `email_UNIQUE` ON `user` (`email` ASC);
 
 
 -- -----------------------------------------------------
+-- Table `pictures`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pictures` (
+  `id`      INT     NOT NULL AUTO_INCREMENT,
+  `data` MEDIUMBLOB NOT NULL,
+  `user_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_pictures_user1`
+  FOREIGN KEY (`user_id`)
+  REFERENCES `user` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+  ENGINE = InnoDB;
+
+CREATE INDEX `fk_pictures_user1_idx` ON `pictures` (`user_id` ASC);
+
+
+-- -----------------------------------------------------
 -- Table `role`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `role` (
