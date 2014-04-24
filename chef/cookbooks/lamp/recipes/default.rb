@@ -50,9 +50,21 @@ package "php5-mysqlnd" do
   action :install
 end
 
+package "php5-gd" do
+  action :install
+end
+
 web_app "opf_testapp" do
   server_name "localhost"
   server_aliases ["localhost"]
   docroot "/vagrant/public"
 end
 
+file "/etc/php5/apache2/conf.d/99-display_errors.ini" do
+  owner "root"
+  group "root"
+  mode "0777"
+  action :create
+  content "display_errors = On"
+  notifies :restart, "service[apache2]", :delayed
+end
