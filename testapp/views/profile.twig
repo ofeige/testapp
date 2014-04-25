@@ -4,10 +4,20 @@
 
     <div class="container">
         <h1>{{ header }}</h1>
-        {% if msg %}
-            <p class="alert alert-success">{{ msg }}</p>
-        {% endif %}
-        {{ form|raw }}
+        <div class="row">
+            <div class="col-md-8">
+                {% if msg %}
+                    <p class="alert alert-success">{{ msg }}</p>
+                {% endif %}
+                {{ form|raw }}
+            </div>
+            <div class="col-md-4"><img
+                        src="/?app=secure&cmd=img&id={{ img_id }}"
+                        width="100%"/></div>
+
+        </div>
+
+
     </div>
 
 {% endblock %}

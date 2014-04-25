@@ -26,6 +26,10 @@ class Profile extends CommandAbstract
         $user = \User::where('email', Registry::getInstance()->getSession()->getParameter(AuthEventHandler::authName))
                      ->find_one();
 
+        if (($pictures = \Pictures::where('user_id', $user->id)->find_one()) == false) {
+            $pictures = \Pictures::create();
+        }
+
         $form = new Form();
 
         $form->addElement(new Input('email', 'Benutzer', 'Benutzername hier eingeben'))
@@ -52,9 +56,7 @@ class Profile extends CommandAbstract
             $user->password = password_hash($data['password1'], PASSWORD_DEFAULT);
             $user->save();
 
-            if(($pictures = \Pictures::where('user_id', $user->id)->find_one()) == false) {
-                $pictures = \Pictures::create();
-            }
+
 
             $pictures->data = file_get_contents($data['foto']['tmp_name']);
             $pictures->user_id = $user->id;
@@ -67,6 +69,7 @@ class Profile extends CommandAbstract
         $view->assign('form', (string)$form);
         $view->assign('header', 'Edit profile data');
         $view->assign('msg', $msg);
+        $view->assign('img_id', $pictures->id);
         $view->assign('session', Registry::getInstance()->getSession());
         $view->render($this->request, $this->response);
     }
