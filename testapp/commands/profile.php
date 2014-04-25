@@ -52,7 +52,10 @@ class Profile extends CommandAbstract
             $user->password = password_hash($data['password1'], PASSWORD_DEFAULT);
             $user->save();
 
-            $pictures = \Pictures::create();
+            if(($pictures = \Pictures::where('user_id', $user->id)->find_one()) == false) {
+                $pictures = \Pictures::create();
+            }
+
             $pictures->data = file_get_contents($data['foto']['tmp_name']);
             $pictures->user_id = $user->id;
             $pictures->save();
