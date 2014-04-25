@@ -36,11 +36,9 @@ class Profile extends CommandAbstract
              ->setRequired('Benutzername nicht vorhanden')
              ->addRule(new EmailNotExists('EMail Adresse existiert schon', 'User', 'email', $user->email));
         $form->addElement(new Password('password1', 'Passwort', 'Passwort hier eingeben'))
-             ->setRequired('Passwort nicht vorhanden')
              ->addRule(new Min('Passwort ist zu kurz', 5))
              ->addRule(new TwoFieldsEqual('Passwörter stimmen nicht überein', 'password2'));
-        $form->addElement(new Password('password2', 'Passwort Wiederholung', 'Passwort hier eingeben'))
-             ->setRequired('Passwort nicht vorhanden');
+        $form->addElement(new Password('password2', 'Passwort Wiederholung', 'Passwort hier eingeben'));
         $form->addElement(new FileUpload('Foto', 'foto', 200000))
              ->addRule(new FileUploadSize('Datei ist zu gross, max 200 KB', 200000))
              ->addRule(new FileUploadType('Bitte nur JPG, PNG und GIF benutzen'));
@@ -52,13 +50,13 @@ class Profile extends CommandAbstract
         if ($form->isValid($this->request) == true) {
             $data = $form->getData();
 
-            $user->email    = $data['email'];
-            $user->password = password_hash($data['password1'], PASSWORD_DEFAULT);
+            $user->email = $data['email'];
+            if ($data['password1'] !== '') {
+                $user->password = password_hash($data['password1'], PASSWORD_DEFAULT);
+            }
             $user->save();
 
-
-
-            $pictures->data = file_get_contents($data['foto']['tmp_name']);
+            $pictures->data    = file_get_contents($data['foto']['tmp_name']);
             $pictures->user_id = $user->id;
             $pictures->save();
 
