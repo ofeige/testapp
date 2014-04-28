@@ -3,18 +3,9 @@
 namespace Opf\Mvc;
 
 use Opf\Auth\AuthEventHandler;
-use Opf\Form\Elements\FileUpload;
-use Opf\Form\Rules\FileUploadSize;
-use Opf\Form\Rules\FileUploadType;
 use Opf\Registry\Registry;
 use Opf\Template\ViewTwig;
-use Opf\Form\Elements\Button;
-use Opf\Form\Elements\Input;
-use Opf\Form\Elements\Password;
-use Opf\Form\Form;
-use Opf\Form\Rules\EmailNotExists;
-use Opf\Form\Rules\Min;
-use Opf\Form\Rules\TwoFieldsEqual;
+use testapp\forms\User;
 
 
 class Profile extends CommandAbstract
@@ -30,20 +21,7 @@ class Profile extends CommandAbstract
             $pictures = \Pictures::create();
         }
 
-        $form = new Form();
-
-        $form->addElement(new Input('email', 'Benutzer', 'Benutzername hier eingeben'))
-             ->setRequired('Benutzername nicht vorhanden')
-             ->addRule(new EmailNotExists('EMail Adresse existiert schon', 'User', 'email', $user->email));
-        $form->addElement(new Password('password1', 'Passwort', 'Passwort hier eingeben'))
-             ->addRule(new Min('Passwort ist zu kurz', 5))
-             ->addRule(new TwoFieldsEqual('Passwörter stimmen nicht überein', 'password2'));
-        $form->addElement(new Password('password2', 'Passwort Wiederholung', 'Passwort hier eingeben'));
-        $form->addElement(new FileUpload('Foto', 'foto', 200000))
-             ->addRule(new FileUploadSize('Datei ist zu gross, max 200 KB', 200000))
-             ->addRule(new FileUploadType('Bitte nur JPG, PNG und GIF benutzen'));
-        $form->addElement(new Button('Sign Up'));
-        $form->setInitValues($this->request, $user->as_array());
+        $form = new User($user, $this->request);
 
         $html = false;
         $msg  = '';
@@ -54,11 +32,14 @@ class Profile extends CommandAbstract
             if ($data['password1'] !== '') {
                 $user->password = password_hash($data['password1'], PASSWORD_DEFAULT);
             }
+            Registry::getInstance()->getSession()->setParameter(AuthEventHandler::authName, $data['email']);
             $user->save();
 
-            $pictures->data    = file_get_contents($data['foto']['tmp_name']);
-            $pictures->user_id = $user->id;
-            $pictures->save();
+            if ($data['foto']['error'] == UPLOAD_ERR_OK) {
+                $pictures->data    = file_get_contents($data['foto']['tmp_name']);
+                $pictures->user_id = $user->id;
+                $pictures->save();
+            }
 
             $msg = 'Saved data successfully!';
         }
