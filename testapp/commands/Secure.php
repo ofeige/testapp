@@ -22,8 +22,8 @@ class Secure extends CommandAbstract
 
        if($picture == false) {
             $this->response->addHeader('Content-type', 'image/svg+xml');
-            $this->response->addHeader('Content-length', filesize(OPF_APPLICATION_PATH . '/../public/test_screen.svg'));
-            $this->response->write(file_get_contents(OPF_APPLICATION_PATH . '/../public/test_screen.svg'));
+            $this->response->addHeader('Content-length', filesize(OPF_APPLICATION_PATH . '/../public/404.svg'));
+            $this->response->write(file_get_contents(OPF_APPLICATION_PATH . '/../public/404.svg'));
         }
         else {
             $info = getimagesizefromstring($picture->data);
