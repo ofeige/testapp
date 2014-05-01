@@ -23,7 +23,6 @@ class Profile extends CommandAbstract
 
         $form = new User($user, $this->request);
 
-        $html = false;
         $msg  = '';
         if ($form->isValid($this->request) == true) {
             $data = $form->getData();
