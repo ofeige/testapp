@@ -2,43 +2,65 @@
 
 namespace testapp\forms;
 
+use testapp\library\Form\Elements\DatePicker;
+use testapp\library\Form\Elements\Select;
+use testapp\library\Utils\Utils;
+use testapp\library\Validator\IsLesserThan;
+use Opf\Form\Elements\Radio;
 use Opf\Form\Form;
-use Opf\Http\RequestInterface;
 use Opf\Form\Elements\Input;
 use Opf\Form\Elements\FileUpload;
 use Opf\Form\Elements\Button;
 use Opf\Form\Elements\Password;
-use Opf\Form\Rules\FileUploadSize;
-use Opf\Form\Rules\FileUploadType;
-use Opf\Form\Rules\EmailNotExists;
-use Opf\Form\Rules\Min;
-use Opf\Form\Rules\TwoFieldsEqual;
+use Opf\Http\RequestInterface;
+use Opf\Validator\DbRecordNotFound;
+use Opf\Validator\EmailAddress;
+use Opf\Validator\FileUploadType;
+use Opf\Validator\IsEqualTo;
+use Opf\Validator\NotEmpty;
+use Opf\Validator\StringLength;
 
 class User extends Form
 {
     protected $user;
 
-    public function __construct(\User $user, RequestInterface $request)
+    public function __construct(RequestInterface $request, $userId = false)
     {
-        $this->user = $user;
-        $this->request = $request;
+        /* test whether we create or edit a user */
+        $exclude = array();
+        if ($userId !== false) {
+            $exclude = array('fieldName' => 'id', 'value' => $userId);
+        }
 
-        $this->addElement(new Input('email', 'Benutzer', 'Benutzername hier eingeben'))
-             ->setRequired('Benutzername nicht vorhanden')
-             ->addRule(new EmailNotExists('EMail Adresse existiert schon', 'User', 'email', $this->user->email));
+        $this->addElement('email', new Input('E-Mail', 'insert e-mail address here'))
+             ->addRule(new NotEmpty(NotEmpty::STRING))
+             ->addRule(new DbRecordNotFound('User', 'email', $exclude))
+             ->addRule(new EmailAddress());
 
-        $this->addElement(new Password('password1', 'Passwort', 'Passwort hier eingeben'))
-             ->addRule(new Min('Passwort ist zu kurz', 5))
-             ->addRule(new TwoFieldsEqual('Passwörter stimmen nicht überein', 'password2'));
+        $this->addElement('nickname', new Input('Nickname', 'insert nickname here'))
+             ->addRule(new NotEmpty(NotEmpty::STRING))
+             ->addRule(new DbRecordNotFound('User', 'nickname', $exclude))
+             ->addRule(new StringLength(64));
 
-        $this->addElement(new Password('password2', 'Passwort Wiederholung', 'Passwort hier eingeben'));
+        $this->addElement('password1', new Password('Password', 'insert password here'))
+             ->addRule(new StringLength(64, 5))
+             ->addRule(new IsEqualTo('password2', $request->getAllParameters(), array(IsEqualTo::IS_EQUAL_TO => 'Passwords did not match. Please try again.')));
 
-        $this->addElement(new FileUpload('Foto', 'foto', 200000))
-             ->addRule(new FileUploadSize('Datei ist zu gross, max 200 KB', 200000))
-             ->addRule(new FileUploadType('Bitte nur JPG, PNG und GIF benutzen'));
+        $this->addElement('password2', new Password('Confirm Password', 'insert password here'));
 
-        $this->addElement(new Button('Sign Up'));
+        $this->addElement('picture', new FileUpload('Picture', 500))
+             ->addRule(new FileUploadType(array('image/jpeg', 'image/png', 'image/gif', 'image/tiff')));
 
-        $this->setInitValues($this->request, $user->as_array());
+        /** when we add a user, the password must be set */
+        if ($userId == false) {
+            $this->getElement('password1')->addRule(new NotEmpty(NotEmpty::STRING));
+            $this->getElement('password2')->addRule(new NotEmpty(NotEmpty::STRING));
+        }
+
+        if ($userId !== false) {
+            $this->addElement('button', new Button('update'));
+        } else {
+            $this->addElement('button', new Button('Sign Up'));
+        }
     }
 }

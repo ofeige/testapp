@@ -21,21 +21,26 @@ class Profile extends CommandAbstract
             $pictures = \Pictures::create();
         }
 
-        $form = new User($user, $this->request);
+        $form = new User($this->request, $user->id);
+        $form->setData($this->request->getAllParameters());
+        $data              = $user->as_array();
+        $form->setInitValues($data);
 
-        $msg  = '';
-        if ($form->isValid($this->request) == true) {
+        $msg = '';
+        if ($form->isValid() == true) {
             $data = $form->getData();
 
-            $user->email = $data['email'];
+            $user->email    = $data['email'];
+            $user->nickname = $data['nickname'];
+
             if ($data['password1'] !== '') {
                 $user->password = password_hash($data['password1'], PASSWORD_DEFAULT);
             }
             Registry::getInstance()->getSession()->setParameter(AuthEventHandler::authName, $data['email']);
             $user->save();
 
-            if ($data['foto']['error'] == UPLOAD_ERR_OK) {
-                $pictures->data    = file_get_contents($data['foto']['tmp_name']);
+            if ($data['picture']['error'] == UPLOAD_ERR_OK) {
+                $pictures->data    = file_get_contents($data['picture']['tmp_name']);
                 $pictures->user_id = $user->id;
                 $pictures->save();
             }

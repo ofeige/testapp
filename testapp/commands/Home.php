@@ -2,14 +2,8 @@
 
 namespace Opf\Mvc;
 
+use testapp\forms\User;
 use Opf\Auth\AuthEventHandler;
-use Opf\Form\Elements\Button;
-use Opf\Form\Elements\Input;
-use Opf\Form\Elements\Password;
-use Opf\Form\Form;
-use Opf\Form\Rules\EmailNotExists;
-use Opf\Form\Rules\Min;
-use Opf\Form\Rules\TwoFieldsEqual;
 use Opf\Registry\Registry;
 use Opf\Template\ViewTwig;
 
@@ -26,43 +20,24 @@ class Home extends CommandAbstract
 
     public function signup()
     {
-        $form = new Form();
+        $form = new User($this->request);
+        $form->deleteElement('picture');
 
-        $input = new Input('user', 'Benutzer', 'Benutzername hier eingeben');
-        $input->setRequired('Benutzername nicht vorhanden')
-              ->addRule(new EmailNotExists('EMail Adresse existiert schon', 'User', 'email'));
-
-        $password1 = new Password('password1', 'Passwort', 'Passwort hier eingeben');
-        $password1->setRequired('Passwort nicht vorhanden')
-                  ->addRule(new Min('Passwort ist zu kurz', 5))
-                  ->addRule(new TwoFieldsEqual('Passwörter stimmen nicht überein', 'password2'));
-
-        $password2 = new Password('password2', 'Passwort Wiederholung', 'Passwort hier eingeben');
-        $password2->setRequired('Passwort nicht vorhanden');
-
-        $button = new Button('Sign Up');
-
-        $form->addElement($input);
-        $form->addElement($password1);
-        $form->addElement($password2);
-        $form->addElement($button);
-
-        $html = false;
-        if ($form->isValid($this->request)) {
+        $form->setData($this->request->getAllParameters());
+        if ($isValid = $form->isValid()) {
             $data = $form->getData();
 
-            $user           = \Model::factory('User')->create();
-            $user->email    = $data['user'];
-            $user->password = password_hash($data['password1'], PASSWORD_DEFAULT);
+            $user                 = \Model::factory('User')->create();
+            $user->email          = $data['email'];
+            $user->nickname       = $data['nickname'];
+            $user->password       = password_hash($data['password1'], PASSWORD_DEFAULT);
             $user->save();
-        } else {
-            $html = (string)$form;
         }
-
 
         $view = new ViewTwig('signup');
         $view->assign('session', Registry::getInstance()->getSession());
-        $view->assign('form', $html);
+        $view->assign('form', (string)$form);
+        $view->assign('isValid', $isValid);
         $view->assign('authUsername', AuthEventHandler::authName);
         $view->assign('authPassword', AuthEventHandler::authPassword);
         $view->render($this->request, $this->response);
