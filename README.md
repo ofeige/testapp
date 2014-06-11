@@ -23,3 +23,5 @@ then you can build the virtual machine with
 <pre><code>vagrant up</code></pre>
 
 After building a machine you can open a Browser Window and go to http://localhost:8081 to start with OPF
+
+There is an admin user with password 123456.
