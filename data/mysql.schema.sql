@@ -2,6 +2,13 @@ SET @OLD_UNIQUE_CHECKS = @@UNIQUE_CHECKS, UNIQUE_CHECKS = 0;
 SET @OLD_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS = 0;
 SET @OLD_SQL_MODE = @@SQL_MODE, SQL_MODE = 'TRADITIONAL,ALLOW_INVALID_DATES';
 
+-- -----------------------------------------------------
+-- Schema dating
+-- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `testapp` ;
+CREATE SCHEMA IF NOT EXISTS `testapp` DEFAULT CHARACTER SET utf8 ;
+USE `testapp` ;
+
 
 -- -----------------------------------------------------
 -- Table `user`
@@ -23,8 +30,8 @@ CREATE UNIQUE INDEX `email_UNIQUE` ON `user` (`email` ASC);
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pictures` (
   `id`      INT     NOT NULL AUTO_INCREMENT,
-  `data` MEDIUMBLOB NOT NULL,
   `user_id` INT(11) NOT NULL,
+  `data` MEDIUMBLOB NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_pictures_user1`
   FOREIGN KEY (`user_id`)

@@ -5,17 +5,17 @@
     "authors": [
         {
             "name": "Oliver Feige",
-            "email": "ofeige@gmx.de"
+            "email": "oliver@feige.net"
         }
     ],
     "require": {
         "php": ">=5.3.3",
         "ofeige/opf": "dev-master",
-        "twig/twig": "1.6.5",
-        "j4mie/paris": "v1.4.2",
-        "ircmaxell/password-compat": "1.0.3"
+        "twig/twig": ">=v1.18.0",
+        "j4mie/paris": ">=v1.5.4",
+        "ircmaxell/password-compat": ">=v1.0.4"
     },
     "autoload": {
-        "psr-4": {"testapp\\": "testapp/"}
+        "psr-4": {"application\\": "application/"}
     }
 }
