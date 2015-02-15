@@ -20,7 +20,7 @@
                 <td>{{ value.is_doi }}</td>
                 <td>{{ value.is_deleted }}</td>
                 <td>{{ value.role }}</td>
-                <td style="text-align: right"><a href="/?app=admin&cmd=toggleAdmin&id={{ value.id }}" class="btn btn-default"><span
+                <td style="text-align: right"><a href="/admin/toggleAdmin/{{ value.id }}" class="btn btn-default"><span
                                 class="glyphicon glyphicon-plus"></span> toggle Admin</a></td>
             </tr>
             {% endfor %}

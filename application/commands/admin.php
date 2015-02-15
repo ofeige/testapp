@@ -2,8 +2,8 @@
 
 namespace Opf\Mvc;
 
+use Opf\Bootstrap\Bootstrap;
 use Opf\Template\ViewTwig;
-use Opf\Registry\Registry;
 
 class Admin extends CommandAbstract
 {
@@ -14,7 +14,7 @@ class Admin extends CommandAbstract
         $user = \User::filter('withRoles')->find_array();
 
         $view = new ViewTwig('admin_overview');
-        $view->assign('session', Registry::getInstance()->getSession());
+        $view->assign('session', Bootstrap::getInstance()->getSession());
 
         $view->assign('user', $user);
         $view->render($this->request, $this->response);
@@ -33,14 +33,15 @@ class Admin extends CommandAbstract
         } else {
             $userHasRole->delete();
         }
-        header('Location: /?app=admin&cmd=main');
+
+        header('Location: /admin');
         exit;
     }
 
     public function info()
     {
         $view = new ViewTwig('info');
-        $view->assign('session', Registry::getInstance()->getSession());
+        $view->assign('session', Bootstrap::getInstance()->getSession());
 
         $view->assign('iniget', ini_get_all());
         $view->render($this->request, $this->response);

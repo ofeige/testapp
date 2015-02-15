@@ -3,9 +3,9 @@
 namespace Opf\Mvc;
 
 use Opf\Auth\AuthEventHandler;
-use Opf\Registry\Registry;
+use Opf\Bootstrap\Bootstrap;
 use Opf\Template\ViewTwig;
-use testapp\forms\User;
+use application\forms\User;
 
 
 class Profile extends CommandAbstract
@@ -14,7 +14,7 @@ class Profile extends CommandAbstract
 
     public function main()
     {
-        $user = \User::where('email', Registry::getInstance()->getSession()->getParameter(AuthEventHandler::authName))
+        $user = \User::where('email', Bootstrap::getInstance()->getSession()->getParameter(AuthEventHandler::authName))
                      ->find_one();
 
         if (($pictures = \Pictures::where('user_id', $user->id)->find_one()) == false) {
@@ -36,7 +36,7 @@ class Profile extends CommandAbstract
             if ($data['password1'] !== '') {
                 $user->password = password_hash($data['password1'], PASSWORD_DEFAULT);
             }
-            Registry::getInstance()->getSession()->setParameter(AuthEventHandler::authName, $data['email']);
+            Bootstrap::getInstance()->getSession()->setParameter(AuthEventHandler::authName, $data['email']);
             $user->save();
 
             if ($data['picture']['error'] == UPLOAD_ERR_OK) {
@@ -53,7 +53,7 @@ class Profile extends CommandAbstract
         $view->assign('header', 'Edit profile data');
         $view->assign('msg', $msg);
         $view->assign('img_id', $pictures->id);
-        $view->assign('session', Registry::getInstance()->getSession());
+        $view->assign('session', Bootstrap::getInstance()->getSession());
         $view->render($this->request, $this->response);
     }
 }

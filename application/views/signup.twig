@@ -5,7 +5,7 @@
     <div class="container">
         <h1>Sign{{ attribute(form, 'valid') }}up</h1>
         {% if isValid %}
-            <p>You have successfully registered to the system. <a href="/?app=secure&cmd=main">Please sign in now
+            <p>You have successfully registered to the system. <a href="/application">Please sign in now
                     here</a></p>
         {% else %}
             {{ form|raw }}

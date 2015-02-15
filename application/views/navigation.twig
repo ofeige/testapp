@@ -7,18 +7,18 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/?app=home&cmd=main">Test Applikation</a>
+            <a class="navbar-brand" href="/">Test Applikation</a>
         </div>
         <div class="navbar-collapse collapse">
             {% if attribute(session, 'auth::signin') == true %}
                 <ul class="nav navbar-nav">
-                    <li{{ app == 'secure' and cmd == 'main' ?  ' class="active"' : '' }}><a
-                                href="/?app=secure&cmd=main">Home</a></li>
+                    <li{{ (controller == 'application' and action == 'main') ?  ' class="active"' }}><a
+                                href="/application">Home</a></li>
                     {% if 'admin' in session['auth::roles'] %}
-                        <li{{ app == 'admin' and cmd == 'info' ?  ' class="active"' : '' }}><a
-                                    href="/?app=admin&cmd=info">PHP Info</a></li>
-                        <li{{ app == 'admin' and cmd == 'main' ? ' class="active"' : '' }}><a
-                                    href="/?app=admin&cmd=main">Administration</a></li>
+                        <li{{ (controller == 'admin' and action == 'info') ?  ' class="active"' }}><a
+                                    href="/admin/info">PHP Info</a></li>
+                        <li{{ (controller == 'admin' and action == 'main') ? ' class="active"' }}><a
+                                    href="/admin">Administration</a></li>
                     {% endif %}
                 </ul>
 
@@ -28,7 +28,7 @@
                                     class="glyphicon glyphicon-user"></span>
                             {{ session[constant('\\Opf\\Auth\\AuthEventHandler::authName')] }} <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/?app=profile">Profil</a></li>
+                            <li><a href="/profile">Profil</a></li>
                             <li><a href="/?app=help">Help!</a></li>
                             <li class="divider"></li>
                             <li><a href="/?auth::logout">sign out</a></li>
@@ -37,11 +37,11 @@
                 </ul>
             {% else %}
                 <ul class="nav navbar-nav">
-                    <li{{ cmd == 'main' ? ' class="active"' : '' }}><a href="/?app=home&cmd=main">Home</a></li>
-                    <li{{ cmd == 'signup' ? ' class="active"' : '' }}><a href="/?app=home&cmd=signup">Sign Up</a></li>
+                    <li{{ (controller == 'index' and action == 'main') ? ' class="active"' }}><a href="/">Home</a></li>
+                    <li{{ (controller == 'index' and action == 'signup') ? ' class="active"' }}><a href="/signup">Sign Up</a></li>
                 </ul>
                 {% if showLoginForm != true %}
-                    <form class="navbar-form navbar-right" role="form" action="/?app=secure&cmd=main" method="post">
+                    <form class="navbar-form navbar-right" role="form" action="/application" method="post">
                         <div class="form-group">
                             <input type="text" placeholder="Email" class="form-control" name="{{ authUsername }}">
                         </div>

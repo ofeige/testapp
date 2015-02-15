@@ -2,17 +2,17 @@
 
 namespace Opf\Mvc;
 
-use testapp\forms\User;
+use application\forms\User;
 use Opf\Auth\AuthEventHandler;
-use Opf\Registry\Registry;
+use Opf\Bootstrap\Bootstrap;
 use Opf\Template\ViewTwig;
 
-class Home extends CommandAbstract
+class Index extends CommandAbstract
 {
     public function main()
     {
         $view = new ViewTwig('home');
-        $view->assign('session', Registry::getInstance()->getSession());
+        $view->assign('session', Bootstrap::getInstance()->getSession());
         $view->assign('authUsername', AuthEventHandler::authName);
         $view->assign('authPassword', AuthEventHandler::authPassword);
         $view->render($this->request, $this->response);
@@ -35,7 +35,7 @@ class Home extends CommandAbstract
         }
 
         $view = new ViewTwig('signup');
-        $view->assign('session', Registry::getInstance()->getSession());
+        $view->assign('session', Bootstrap::getInstance()->getSession());
         $view->assign('form', (string)$form);
         $view->assign('isValid', $isValid);
         $view->assign('authUsername', AuthEventHandler::authName);
